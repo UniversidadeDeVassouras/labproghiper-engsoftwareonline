@@ -4,10 +4,10 @@
     <span class="navbar-text">
         Matriz Curricular
     </span>
-    <select class="custom-select col-md-2" id="periodo-list">
+    <select class="custom-select col-md-2" id="periodo-list" onchange="location = this.value;">
         <option selected>Selecione um Período</option>
         {% for periodo in periodo_list %}
-            <option value="{{periodo.get_id()}}">{{periodo.get_nome()}}</option>
+            <option value="{{url_for('matriz_curricular', periodo=periodo.get_id())}}">{{periodo.get_nome()}}</option>
         {% endfor %}
     </select>
 </nav>
