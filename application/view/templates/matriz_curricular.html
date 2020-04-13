@@ -4,16 +4,12 @@
     <span class="navbar-text">
         Matriz Curricular
     </span>
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Selecione um Período
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          {% for periodo in periodo_list %}
-          <a class="dropdown-item" href="{{url_for('matriz_curricular', periodo=periodo.get_id())}}">{{periodo.get_nome()}}</a>
-          {% endfor %}
-        </div>
-    </div>
+    <select class="custom-select col-md-2" id="periodo-list">
+        <option selected>Selecione um Período</option>
+        {% for periodo in periodo_list %}
+            <option value="{{periodo.get_id()}}">{{periodo.get_nome()}}</option>
+        {% endfor %}
+    </select>
 </nav>
 <div class="m-3 p-3">
     {% if periodo %}
