@@ -4,40 +4,31 @@
     <span class="navbar-text">
         Matriz Curricular
     </span>
-    <select class="custom-select col-md-2" id="periodo-list" onchange="location = this.value;">
-        <option selected>Selecione um Período</option>
+    <select class="custom-select col-md-2" id="periodo-list" onChange="getPeriodo(this.value);">
+        <option value="0" selected>Selecione um Período</option>
         {% for periodo in periodo_list %}
-            <option value="{{url_for('matriz_curricular', periodo=periodo.get_id())}}">{{periodo.get_nome()}}</option>
+            <option value="{{periodo.get_id()}}">{{periodo.get_nome()}}</option>
         {% endfor %}
     </select>
 </nav>
-<div class="m-3 p-3">
-    {% if periodo %}
-        <h4 class="card-title">{{periodo.get_nome()}}</h4>
-        {% for disciplina in periodo.get_disciplina_lista() %}
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{disciplina.get_nome()}}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Carga Horária: {{disciplina.get_carga_horaria()}}</h6>
-                    <h6 class="card-subtitle mb-2 text-muted">Pré-Requisito: 
-                        {% if disciplina.get_disciplina_prerequisito() != None %}
-                            {{disciplina.get_disciplina_prerequisito().get_nome()}}
-                        {% else %}
-                            Nenhum
-                        {% endif %}
-                    </h6>
-                    <h6 class="card-subtitle mb-2 text-muted">Créditos:</h6>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Teórica: {{disciplina.get_credito().get_teorica()}}</li>
-                        <li class="list-group-item">Prática: {{disciplina.get_credito().get_pratica()}}</li>
-                    </ul>
-                </div>
-            </div>
-        {% endfor %}
-    {% else %}
-        <div class="alert alert-info" role="alert">
-            Nenhum período encontrado!
-        </div>
-    {% endif %}
-    {% endblock%}
-<div>
+<div id="periodo">
+</div>
+<script>
+    var getPeriodo = function(numero) {
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState == 4 && xhr.status == 200) {
+                document.getElementById("periodo").innerHTML = xhr.response;
+            }
+        }
+        //QUERY PARAMETERS /caminho?param=value&param=value&param=value
+        //PATH PARAMETERS /caminho/<id>/
+        xhr.open("GET", "/periodo?numero=" + numero);
+        xhr.setRequestHeader("Accept", "text/html");
+        xhr.send();
+    }
+    let selectList = document.getElementById("periodo-list");
+    getPeriodo(1);
+</script>
+{% endblock %}
+
